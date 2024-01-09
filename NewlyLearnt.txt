@@ -1,0 +1,6 @@
+// Install json-server
+npm install -g json-server
+
+// Create API endpoint link
+json-server --watch ./_data/db.json --port 4000
+
