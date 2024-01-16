@@ -9,9 +9,11 @@ import { Checkbox } from "@/components/ui/checkbox";
 // You can use a Zod schema here if you want.
 export type Payment = {
   id: string;
-  amount: number;
-  status: "pending" | "processing" | "success" | "failed";
-  email: string;
+  name: string;
+  age: number;
+  sex: string;
+  contact: string;
+  dateTime: Date;
 };
 
 export const columns: ColumnDef<Payment>[] = [
@@ -44,6 +46,10 @@ export const columns: ColumnDef<Payment>[] = [
     accessorKey: "id",
     header: "Serial No",
   },
+  // {
+  //   accessorKey: "serialNumber",
+  //   header: "Serial yo",
+  // },
   {
     accessorKey: "name",
     header: ({ column }) => {
@@ -72,19 +78,10 @@ export const columns: ColumnDef<Payment>[] = [
   },
   {
     accessorKey: "sex",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-          Sex
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
+    header: "Sex",
   },
   {
-    accessorKey: "contactNumber",
+    accessorKey: "contact",
     header: ({ column }) => {
       return (
         <Button
@@ -109,17 +106,4 @@ export const columns: ColumnDef<Payment>[] = [
       );
     },
   },
-  // {
-  //   accessorKey: "dateTime",
-  //   header: () => <div className="text-right">Amount</div>,
-  //   cell: ({ row }) => {
-  //     const amount = parseFloat(row.getValue("amount"));
-  //     const formatted = new Intl.NumberFormat("en-US", {
-  //       style: "currency",
-  //       currency: "USD",
-  //     }).format(amount);
-
-  //     return <div className="text-right font-medium">{formatted}</div>;
-  //   },
-  // },
 ];

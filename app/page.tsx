@@ -1,65 +1,43 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { ModeToggle } from "@/components/Toggle";
+"use client";
+import { Payment, columns } from "./columns";
+import { DataTable } from "./data-table";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import DialogForm from "@/components/DialogForm";
 
-interface Recipe {
-  title: string;
-  image: string;
-  time: number;
-  description: string;
-  vegan: boolean;
-  id: string;
+async function getData() {
+  try {
+    const response = await axios.get("http://localhost:3000/api/patients/");
+    return response.data;
+  } catch (error) {
+    throw new Error("Failed to fetch data");
+  }
 }
 
-async function getRecipes(): Promise<Recipe[]> {
-  const result = await fetch("http://localhost:4000/recipes");
+export default function Home() {
+  const [data, setData] = useState([]);
 
-  return result.json();
-}
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const result = await getData();
+        setData(result);
+      } catch (error: any) {
+        console.error(error.message);
+      }
+    }
 
-export default async function Home() {
-  const recipes = await getRecipes();
+    fetchData();
+  }, []);
+
+  console.log(data);
 
   return (
-    <>
-      <main>
-        <div className=" grid grid-cols-3 gap-8">
-          {recipes.map((recipe) => {
-            return (
-              <Card key={recipe.id} className=" flex flex-col justify-between">
-                <CardHeader className=" flex-row gap-4 items-center">
-                  <Avatar>
-                    <AvatarImage src={`/img/${recipe.image}`} />
-                    <AvatarFallback>{recipe.title.slice(0, 2)}</AvatarFallback>
-                  </Avatar>
-                  <div>
-                    <CardTitle>{recipe.title}</CardTitle>
-                    <CardDescription>
-                      {recipe.time} mins to cook..
-                    </CardDescription>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <p>{recipe.description}</p>
-                </CardContent>
-                <CardFooter className=" flex justify-between">
-                  <Button variant="default">View Recipe</Button>
-                  {recipe.vegan && <Badge variant="secondary">Vegan</Badge>}
-                </CardFooter>
-              </Card>
-            );
-          })}
-        </div>
-      </main>
-    </>
+    <div>
+      <div className="container mx-auto py-10">
+        <DialogForm />
+        <DataTable columns={columns} data={data} />
+      </div>
+    </div>
   );
 }
