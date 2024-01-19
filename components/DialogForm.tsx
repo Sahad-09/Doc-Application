@@ -32,7 +32,6 @@ import {
 } from "@/components/ui/select";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 
 const formSchema = z.object({
   age: z.string(),

@@ -1,9 +1,11 @@
 "use client";
-
+import axios from "axios";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import { DataTableColumnHeader } from "@/components/DataTableColumnHeader ";
+import DataTableRowActions from "@/components/DataTableRowActions";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -15,6 +17,15 @@ export type Payment = {
   contact: string;
   dateTime: Date;
 };
+
+async function getData() {
+  try {
+    const response = await axios.get("http://localhost:3000/api/patients/");
+    return response.data;
+  } catch (error) {
+    throw new Error("Failed to fetch data");
+  }
+}
 
 export const columns: ColumnDef<Payment>[] = [
   {
@@ -50,27 +61,13 @@ export const columns: ColumnDef<Payment>[] = [
   {
     accessorKey: "name",
     header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-          Name
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
+      return <DataTableColumnHeader column={column} title="Name" />;
     },
   },
   {
     accessorKey: "age",
     header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-          Age
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
+      return <DataTableColumnHeader column={column} title="Age" />;
     },
   },
   {
@@ -80,27 +77,17 @@ export const columns: ColumnDef<Payment>[] = [
   {
     accessorKey: "contact",
     header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-          Contact
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
+      return <DataTableColumnHeader column={column} title="Contact" />;
     },
   },
   {
     accessorKey: "dateTime",
     header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-          Date
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
+      return <DataTableColumnHeader column={column} title="DateTime" />;
     },
+  },
+  {
+    id: "actions",
+    cell: ({ row }) => <DataTableRowActions row={row} />,
   },
 ];

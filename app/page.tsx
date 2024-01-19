@@ -30,10 +30,10 @@ export default function Home() {
     fetchData();
   }, []);
 
-  const jsonData = data;
-  const idArray = jsonData.map((item: any) => item.id);
+  // const jsonData = data;
+  // const idArray = jsonData.map((item: any) => item.id);
 
-  console.log(idArray);
+  // console.log(idArray);
 
   return (
     <div>

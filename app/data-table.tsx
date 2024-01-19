@@ -14,13 +14,11 @@ import {
 } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { DropdownMenuCheckboxItem } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
+import { DataTableViewOptions } from "@/components/DataTableViewOptions";
+import { DataTablePagination } from "@/components/DataTablePagination";
+import axios from "axios";
 
 import {
   Table,
@@ -44,11 +42,6 @@ export function DataTable<TData, TValue>({
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   );
-
-  const jsonData = data;
-  const idArray = jsonData.map((item: any) => item.id);
-
-  console.log(idArray);
 
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
@@ -83,33 +76,7 @@ export function DataTable<TData, TValue>({
           }
           className="max-w-sm"
         />
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
-              Columns
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter((column) => column.getCanHide())
-              .map((column) => {
-                // console.log(column.id);
-
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
-                    }>
-                    {column.id}
-                  </DropdownMenuCheckboxItem>
-                );
-              })}
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <DataTableViewOptions table={table} />
       </div>
       <div className="rounded-md border">
         <Table>
@@ -163,25 +130,9 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}>
-          Previous
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}>
-          Next
-        </Button>
-      </div>
-      <div className="flex-1 text-sm text-muted-foreground">
-        {table.getFilteredSelectedRowModel().rows.length} of{" "}
-        {table.getFilteredRowModel().rows.length} row(s) selected.
+
+      <div className=" pt-5">
+        <DataTablePagination table={table} />
       </div>
     </div>
   );

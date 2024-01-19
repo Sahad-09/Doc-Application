@@ -71,7 +71,6 @@ const PatientForm = () => {
       })
       .catch((error) => {
         console.error("Error while submitting data:", error.message);
-        // Handle errors here, e.g., log the error or show an error message to the user
       });
   };
 
