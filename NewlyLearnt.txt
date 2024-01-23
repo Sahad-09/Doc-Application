@@ -4,3 +4,7 @@ npm install -g json-server
 // Create API endpoint link
 json-server --watch ./_data/db.json --port 4000
 
+// Delete Commits
+git reset --soft HEAD~1  // NUmber of recent commits u want delete 
+git push origin +main --force 
+

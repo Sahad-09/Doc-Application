@@ -155,6 +155,25 @@ export const PATCH = async (
   }
 };
 
+// export const DELETE = async (
+//   request: NextRequest,
+//   { params }: { params: { id: string } }
+// ) => {
+//   try {
+//     const { id } = params;
+
+//     await prisma.patient.delete({
+//       where: {
+//         id,
+//       },
+//     });
+
+//     return NextResponse.json("Patient has been deleted");
+//   } catch (err) {
+//     return NextResponse.json({ message: "DELETE Error", err }, { status: 500 });
+//   }
+// };
+
 export const DELETE = async (
   request: NextRequest,
   { params }: { params: { id: string } }
@@ -162,13 +181,32 @@ export const DELETE = async (
   try {
     const { id } = params;
 
+    // Find the patient details associated with the patient ID
+    const patientDetails = await prisma.details.findMany({
+      where: {
+        userId: id,
+      },
+    });
+
+    // Delete each patient detail
+    for (const detail of patientDetails) {
+      await prisma.details.delete({
+        where: {
+          id: detail.id,
+        },
+      });
+    }
+
+    // Finally, delete the patient
     await prisma.patient.delete({
       where: {
         id,
       },
     });
 
-    return NextResponse.json("Patient has been deleted");
+    return NextResponse.json(
+      "Patient and associated details have been deleted"
+    );
   } catch (err) {
     return NextResponse.json({ message: "DELETE Error", err }, { status: 500 });
   }

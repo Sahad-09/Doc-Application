@@ -7,7 +7,9 @@ import DialogForm from "@/components/DialogForm";
 
 async function getData() {
   try {
-    const response = await axios.get("http://localhost:3000/api/patients/");
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_URL}/api/patients/`
+    );
     return response.data;
   } catch (error) {
     throw new Error("Failed to fetch data");

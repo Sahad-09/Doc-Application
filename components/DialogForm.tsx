@@ -68,7 +68,7 @@ const DialogForm = () => {
     console.log({ values }.values);
 
     axios
-      .post("http://localhost:3000/api/patients/", { values }.values)
+      .post(`${process.env.NEXT_PUBLIC_URL}/api/patients/`, { values }.values)
       .then((response) => {
         console.log(response.status, response.data.token);
         router.refresh();
@@ -79,6 +79,8 @@ const DialogForm = () => {
       .finally(() => {
         router.refresh();
       });
+
+    window.location.reload();
   };
 
   return (

@@ -2,10 +2,21 @@
 import axios from "axios";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { DataTableColumnHeader } from "@/components/DataTableColumnHeader ";
 import DataTableRowActions from "@/components/DataTableRowActions";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+  DropdownMenuShortcut,
+} from "@/components/ui/dropdown-menu";
+import { useState } from "react";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -17,15 +28,6 @@ export type Payment = {
   contact: string;
   dateTime: Date;
 };
-
-async function getData() {
-  try {
-    const response = await axios.get("http://localhost:3000/api/patients/");
-    return response.data;
-  } catch (error) {
-    throw new Error("Failed to fetch data");
-  }
-}
 
 export const columns: ColumnDef<Payment>[] = [
   {
@@ -88,6 +90,8 @@ export const columns: ColumnDef<Payment>[] = [
   },
   {
     id: "actions",
-    cell: ({ row }) => <DataTableRowActions row={row} />,
+    cell: ({ row }: any) => {
+      return <DataTableRowActions row={row} />;
+    },
   },
 ];
