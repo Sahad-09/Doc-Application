@@ -19,6 +19,7 @@ import Link from "next/link";
 import { DataTableViewOptions } from "@/components/DataTableViewOptions";
 import { DataTablePagination } from "@/components/DataTablePagination";
 import axios from "axios";
+import { Skeleton } from "@/components/ui/skeleton";
 
 import {
   Table,
@@ -99,34 +100,34 @@ export function DataTable<TData, TValue>({
             ))}
           </TableHeader>
           <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => {
-                return (
-                  <TableRow
-                    key={row.id}
-                    data-state={row.getIsSelected() && "selected"}>
-                    {row.getVisibleCells().map((cell) => {
-                      return (
-                        <TableCell key={cell.id}>
-                          {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext()
-                          )}
-                        </TableCell>
-                      );
-                    })}
+            {table.getRowModel().rows?.length
+              ? table.getRowModel().rows.map((row) => {
+                  return (
+                    <TableRow
+                      key={row.id}
+                      data-state={row.getIsSelected() && "selected"}>
+                      {row.getVisibleCells().map((cell) => {
+                        return (
+                          <TableCell key={cell.id}>
+                            {flexRender(
+                              cell.column.columnDef.cell,
+                              cell.getContext()
+                            )}
+                          </TableCell>
+                        );
+                      })}
+                    </TableRow>
+                  );
+                })
+              : Array.from({ length: 10 }, (_, index) => (
+                  <TableRow key={index} className="">
+                    <TableCell
+                      colSpan={columns.length}
+                      className="h-24 text-center">
+                      <Skeleton className="w-[100%] h-[80%] rounded-full" />
+                    </TableCell>
                   </TableRow>
-                );
-              })
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center">
-                  No results.
-                </TableCell>
-              </TableRow>
-            )}
+                ))}
           </TableBody>
         </Table>
       </div>
