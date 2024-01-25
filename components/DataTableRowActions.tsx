@@ -7,11 +7,13 @@ import {
   DropdownMenuTrigger,
   DropdownMenuShortcut,
 } from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { EditDialog } from "@/components/EditDialog";
+import { DeleteDialog } from "@/components/DeleteDialog";
 
 const DataTableRowActions = (row: any) => {
   const site = row.row.original;
@@ -46,14 +48,9 @@ const DataTableRowActions = (row: any) => {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem className=" cursor-pointer">
-                Edit
-              </DropdownMenuItem>
+              <EditDialog />
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={rowDelete}>
-                Delete
-                <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
-              </DropdownMenuItem>
+              <DeleteDialog rowDelete={rowDelete} />
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
