@@ -12,12 +12,12 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { EditDialog } from "@/components/EditDialog";
+// import { EditDialog } from "@/components/EditDialog";
 import { DeleteDialog } from "@/components/DeleteDialog";
 
 const DataTableRowActions = (row: any) => {
   const site = row.row.original;
-  // console.log("Site", site);
+  const { id, age, name, sex, contact } = site;
 
   const rowDelete = async () => {
     try {
@@ -33,13 +33,13 @@ const DataTableRowActions = (row: any) => {
 
   return (
     <>
-      <div className=" flex  justify-between ">
-        <div className=" self-center">
+      <div className="flex justify-between">
+        <div className="self-center">
           <Link href={`/${site.id}`}>
             <Button>View</Button>
           </Link>{" "}
         </div>
-        <div className=" self-center">
+        <div className="self-center">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="h-8 w-8 p-0">
@@ -48,7 +48,13 @@ const DataTableRowActions = (row: any) => {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <EditDialog />
+              {/* <EditDialog
+                id={id}
+                age={age}
+                name={name}
+                sex={sex}
+                contact={contact}
+              /> */}
               <DropdownMenuSeparator />
               <DeleteDialog rowDelete={rowDelete} />
             </DropdownMenuContent>

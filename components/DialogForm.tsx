@@ -62,8 +62,6 @@ const DialogForm = () => {
     },
   });
 
-  const sex = form.watch("sex");
-
   const handleSubmit = (values: z.infer<typeof formSchema>) => {
     console.log({ values }.values);
 
@@ -162,9 +160,6 @@ const DialogForm = () => {
                   </FormItem>
                 )}
               />
-              {/* <Button type="submit" className="w-full">
-                Submit
-              </Button> */}
               <AlertDialogFooter>
                 <AlertDialogCancel>Cancel</AlertDialogCancel>
 
